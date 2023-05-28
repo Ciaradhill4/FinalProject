@@ -19,7 +19,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @Validated
-@RequestMapping("/orders")
+@RequestMapping("/order")
 @OpenAPIDefinition(info = @Info(title = "Wig Order Service"), servers = 
 {@Server(url = "http://localhost:8080", description = "Local Server.")})
 
@@ -32,8 +32,8 @@ public interface WigOrderController {
       description = "Returns the created Wig",
       responses = {
           @ApiResponse(
-              responseCode = "201", 
-              description = "The created Wig is returned", 
+              responseCode = "200", 
+              description = "The Wig is returned", 
               content = @Content(
                   mediaType = "application/json", 
                   schema = @Schema(implementation = Orders.class))),
@@ -54,13 +54,16 @@ public interface WigOrderController {
                   mediaType = "application/json"))
       },
       parameters = {
-          @Parameter(name = "orderRequest", 
-              required = true, 
+          @Parameter(name = "orderRequest",
+              allowEmptyValue = false, 
+              required = false, 
               description = "Please place an order")
       }
     )
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   Orders createOrder(@Valid @RequestBody OrderRequest orderRequest);
+ // @RequestParam(required = false) 
+  //WigStyle style);
    //@formatter:on
 }

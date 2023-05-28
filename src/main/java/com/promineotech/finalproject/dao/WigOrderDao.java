@@ -1,6 +1,7 @@
 package com.promineotech.finalproject.dao;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import com.promineotech.finalproject.entity.Color;
 import com.promineotech.finalproject.entity.Customer;
@@ -27,5 +28,10 @@ public interface WigOrderDao {
   
   Orders saveOrder(Customer customer, Style style, Color color, Texture texture, Length length,
       BigDecimal price);
+  static List<Style> fetchUpdateStyles(WigStyle style) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  
 
 }

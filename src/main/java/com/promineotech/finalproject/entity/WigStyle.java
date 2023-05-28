@@ -1,7 +1,7 @@
 package com.promineotech.finalproject.entity;
 
 public enum WigStyle  {
-  Bob, Asymmetrical_Bob, Straight, Body_Wave, Deep_Wave, Loose_Wave;
+  BOB, ASYMMETRICAL_BOB, STRAIGHT, BODY_WAVE, DEEP_WAVE, LOOSE_WAVE;
 
 
 }
