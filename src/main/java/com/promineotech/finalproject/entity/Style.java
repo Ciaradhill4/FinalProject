@@ -1,7 +1,6 @@
 package com.promineotech.finalproject.entity;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Style implements Comparable<Style>{
+public class Style {
 
 
   private Long stylePK;
@@ -23,14 +22,10 @@ public class Style implements Comparable<Style>{
   public Long getStylePK() {
     return stylePK;
   }
-
-  @Override
-  public int compareTo(Style that) {
-    // TODO Auto-generated method stub
-    return Comparator
-        .comparing(Style::getStyleId)
-        .compare(that, that);
+  
+  @JsonIgnore
+  public Style style(Style newStyleId) {
+    return style(newStyleId);
   }
-
 }
 

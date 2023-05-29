@@ -12,7 +12,7 @@ public interface WigSalesService {
 
     Optional<Style> createStyles(WigStyle styleId, BigDecimal basePrice);
     
-    Optional<Style> updateStyles(WigStyle styleId, BigDecimal basePrice, WigStyle newStyleId);
-   
-    Optional<Style> deleteStyles(WigStyle styleId, BigDecimal basePrice);
+//    Optional<Style> updateStyles(Style newStyleId, BigDecimal basePrice);
+//
+//    Optional<Style> deleteStyles(Style styleId);
 }

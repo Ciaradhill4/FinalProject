@@ -54,16 +54,16 @@ public interface WigSalesController {
                   mediaType = "application/json"))
       },
       parameters = {
-          @Parameter(name = "style", 
+          @Parameter(name = "styleId", 
               allowEmptyValue = false, 
               required = false, 
-              description = "Please select from available styles"),
+              description = "Please select a styles"),
       }
     )
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
   List<Style>fetchStyles(
       @RequestParam(required = false) 
-      WigStyle style);
+      WigStyle styleId);
    //@formatter:on
 }

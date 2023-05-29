@@ -49,32 +49,33 @@ public Optional<Style> createStyles(WigStyle style, BigDecimal basePrice) {
   
 }
 
-@Override
-public Optional<Style> updateStyles(WigStyle styleId, BigDecimal basePrice, WigStyle newStyle) {
-log.info("The updateStyles method was called with style={}, basePrice={}", styleId, basePrice);
-  
-  Optional<Style> styles = wigSalesDao.updateStyles(styleId, basePrice, newStyle);
-  
-  if(styles.isEmpty()) {
-    String msg = String.format("No wigs found with style=%s", newStyle, basePrice);
-    
-    throw new NoSuchElementException(msg);
-  } 
-  return updateStyles(styleId, basePrice, newStyle);
-}
+//@Override
+//public Optional<Style> updateStyles(Style newStyleId, BigDecimal basePrice) {
+//log.info("The updateStyles method was called with style={}, basePrice={}", newStyleId, basePrice);
+//  
+//  Optional<Style> styles = wigSalesDao.updateStyles(newStyleId, basePrice);
+//  
+//  if(styles.isEmpty()) {
+//    String msg = String.format("No wigs found with style=%s", newStyleId, basePrice);
+//    
+//    throw new NoSuchElementException(msg);
+//  } 
+//  return updateStyles(newStyleId, basePrice);
+//}
+//
+//@Override
+//public Optional<Style> deleteStyles(Style styleId) {
+//log.info("The deleteStyles method was called with style={}", styleId);
+//  
+//  Optional<Style> styles = wigSalesDao.createStyles(styleId);
+//  
+//  if(styles.isEmpty()) {
+//    String msg = String.format("No wigs found with style=%s", styleId);
+//    
+//    throw new NoSuchElementException(msg);
+//  } 
+//  return createStyles(styleId, basePrice);
+//}
 
-@Override
-public Optional<Style> deleteStyles(WigStyle styleId, BigDecimal basePrice) {
-log.info("The deleteStyles method was called with style={}, basePrice={}", styleId, basePrice);
-  
-  Optional<Style> styles = wigSalesDao.createStyles(styleId, basePrice);
-  
-  if(styles.isEmpty()) {
-    String msg = String.format("No wigs found with style=%s", styleId);
-    
-    throw new NoSuchElementException(msg);
-  } 
-  return createStyles(styleId, basePrice);
-}
 }
  

@@ -73,40 +73,40 @@ public class DefaultWigSalesDao implements WigSalesDao {
     return Optional.ofNullable(Style.builder().styleId(styleId).basePrice(basePrice).build());    
   }
   
-  @Override
-  public Optional<Style> updateStyles(WigStyle styleId, BigDecimal basePrice, WigStyle newStyleId){
-    log.info("DAO: styleId={}, basePrice={}", styleId, basePrice);
-    
-    //@formatter: off
-    String sql = ""
-        + "UPDATE style SET style_id = new_wig_style "
-        + "WHERE style_id = :style_id AND base_price = :base_price";
-    //@formatter: on
-    
-    Map<String, Object> params = new HashMap<>();
-    params.put("style_id", styleId.toString());
-    params.put("base_price", basePrice);
-    params.put("new_wig_style", newStyleId.toString());
-    
-    jdbcTemplate.update(sql, params);
-    return Optional.ofNullable(Style.builder().styleId(newStyleId).basePrice(basePrice).build());
-  }
+//  @Override
+//  public Optional<Style> updateStyles(Style newStyleId, BigDecimal basePrice){
+//    log.info("DAO: styleId={}, basePrice={}", newStyleId, basePrice);
+//    
+//    //@formatter: off
+//    String sql = ""
+//        + "UPDATE style SET style_id = new_wig_style "
+//        + "WHERE style_id = :style_id AND base_price = :base_price";
+//    //@formatter: on
+//    
+//    Map<String, Object> params = new HashMap<>();
+//    params.put("style_id", newStyleId.toString());
+//    params.put("base_price", basePrice);
+//    params.put("new_wig_style", newStyleId.toString());
+//    
+//    jdbcTemplate.update(sql, params);
+//    return Optional.ofNullable(Style.builder().styleId(newStyleId).basePrice(basePrice).build());
+//  }
   
-  @Override
-  public Optional<Style> deleteStyles(WigStyle styleId, BigDecimal basePrice){
-    //@formatter:off
-    String sql = ""
-        + "DELETE FROM style WHERE "
-        + " style_id = :style_id AND "
-        + "base_price = :base_price";
-    //@formatter:on
-    
-    Map<String, Object> params = new HashMap<>();
-    params.put("style_id", styleId.toString());
-    params.put("base_price", basePrice);
-    
-    jdbcTemplate.update(sql, params);
-    
-    return Optional.ofNullable(Style.builder().styleId(styleId).basePrice(basePrice).build());
-  }
+//  @Override
+//  public Optional<Style> deleteStyles(WigStyle styleId, BigDecimal basePrice){
+//    //@formatter:off
+//    String sql = ""
+//        + "DELETE FROM style WHERE "
+//        + " style_id = :style_id AND "
+//        + "base_price = :base_price";
+//    //@formatter:on
+//    
+//    Map<String, Object> params = new HashMap<>();
+//    params.put("style_id", styleId.toString());
+//    params.put("base_price", basePrice);
+//    
+//    jdbcTemplate.update(sql, params);
+//    
+//    return Optional.ofNullable(Style.builder().styleId(styleId).basePrice(basePrice).build());
+//  }
 }

@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.promineotech.finalproject.entity.OrderRequest;
 import com.promineotech.finalproject.entity.Orders;
@@ -29,11 +30,11 @@ public interface WigOrderController {
   //@formatter:off
   @Operation(
       summary = " Create an order for a Wig",
-      description = "Returns the created Wig",
+      description = "Returns the order",
       responses = {
           @ApiResponse(
-              responseCode = "200", 
-              description = "The Wig is returned", 
+              responseCode = "201", 
+              description = "The Order is returned", 
               content = @Content(
                   mediaType = "application/json", 
                   schema = @Schema(implementation = Orders.class))),
@@ -44,7 +45,7 @@ public interface WigOrderController {
                   mediaType = "application/json")),
           @ApiResponse(
               responseCode = "404", 
-              description = "A Wig component was not found with the input criteria", 
+              description = "A Order component was not found with the input criteria", 
               content = @Content(
                   mediaType = "application/json")),
           @ApiResponse(
@@ -54,7 +55,7 @@ public interface WigOrderController {
                   mediaType = "application/json"))
       },
       parameters = {
-          @Parameter(name = "orderRequest",
+          @Parameter(name = "Orders",
               allowEmptyValue = false, 
               required = false, 
               description = "Please place an order")
@@ -62,8 +63,10 @@ public interface WigOrderController {
     )
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
-  Orders createOrder(@Valid @RequestBody OrderRequest orderRequest);
- // @RequestParam(required = false) 
-  //WigStyle style);
+  Orders createOrder(
+      @RequestParam(required = false)
+      @Valid 
+      @RequestBody OrderRequest orderRequest);
+   
    //@formatter:on
 }

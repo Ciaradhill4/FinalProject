@@ -41,17 +41,17 @@ public class DefaultWigOrderService implements WigOrderService {
   }
 /**
  * 
- * @param orderRequest
+ * @param orders
  * @return
  */
-  protected Length getLength(OrderRequest orderRequest) {
+  protected Length getLength(OrderRequest orderRequest ) {
     return wigOrderDao.fetchLength(orderRequest.getLength())
         .orElseThrow(() -> new NoSuchElementException(
         "Tire with ID= " + orderRequest.getLength() + " was not found"));
   }
 /**
  * 
- * @param orderRequest
+ * @param orders
  * @return
  */
   protected Texture getTexture(OrderRequest orderRequest) {
@@ -61,7 +61,7 @@ public class DefaultWigOrderService implements WigOrderService {
   }
 /**
  * 
- * @param orderRequest
+ * @param orders
  * @return
  */
   protected Color getColor(OrderRequest orderRequest) {
@@ -71,7 +71,7 @@ public class DefaultWigOrderService implements WigOrderService {
   }
 /**
  * 
- * @param orderRequest
+ * @param orders
  * @return
  */
   protected Style getStyle(OrderRequest orderRequest) {
@@ -87,7 +87,7 @@ public class DefaultWigOrderService implements WigOrderService {
   protected Customer getCustomer(OrderRequest orderRequest) {
     return wigOrderDao.fetchCustomer(orderRequest.getCustomer())
         .orElseThrow(() -> new NoSuchElementException(
-            "Customer with ID= " + orderRequest.getCustomer() + " was not found"));
+        "Customer with ID= " + orderRequest.getCustomer() + " was not found"));
   }
    
 }

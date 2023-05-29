@@ -15,10 +15,6 @@ public interface WigSalesDao {
    */
   List<Style> fetchStyles(WigStyle styleId);
 
-  Optional<Style> createStyles(WigStyle styleId, BigDecimal basePrice);
-
-  Optional<Style> updateStyles(WigStyle styleId, BigDecimal basePrice, WigStyle newStyleId);
-
-  Optional<Style> deleteStyles(WigStyle styleId, BigDecimal basePrice);
+  Optional<Style> createStyles(WigStyle style, BigDecimal basePrice);
 
 }
