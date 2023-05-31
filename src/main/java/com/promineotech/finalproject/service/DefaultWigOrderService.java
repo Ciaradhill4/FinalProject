@@ -89,5 +89,11 @@ public class DefaultWigOrderService implements WigOrderService {
         .orElseThrow(() -> new NoSuchElementException(
         "Customer with ID= " + orderRequest.getCustomer() + " was not found"));
   }
+@Override
+public Orders saveOrder(Customer customer, String style, Color color, Texture texture, Length length,
+    BigDecimal price) {
+  // TODO Auto-generated method stub
+  return null;
+}
    
 }

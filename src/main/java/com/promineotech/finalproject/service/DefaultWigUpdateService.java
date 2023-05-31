@@ -1,6 +1,7 @@
 package com.promineotech.finalproject.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,15 @@ public class DefaultWigUpdateService implements WigUpdateService {
 
   @Transactional(readOnly = true)
   @Override
-  public Optional<Style> updateStyles(Style newStyleId, BigDecimal basePrice) {
-  log.info("The updateStyles method was called with style={}, basePrice={}", newStyleId, basePrice);
+  public List<Style> fetchStyle(String styleId){
+    log.info("The fetchStyle method was called with style_id={}", styleId);
+    
+    return wigUpdateDao.fetchStyle(styleId);
+  }
+  
+  @Override
+  public Optional<Style> updateStyles(String newStyleId, BigDecimal basePrice) {
+  log.info("The updateStyles method was called with styleId={}, basePrice={}", newStyleId, basePrice);
     
     Optional<Style> styles = wigUpdateDao.updateStyles(newStyleId, basePrice);
     
@@ -33,7 +41,4 @@ public class DefaultWigUpdateService implements WigUpdateService {
     return updateStyles(newStyleId, basePrice);
 
   }
-  
-  
-
 }

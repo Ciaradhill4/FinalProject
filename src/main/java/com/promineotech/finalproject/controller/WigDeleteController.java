@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
     
     //@formatter:off
     @Operation(
-        summary = " Deletes a style",
+        summary = " Delete a style",
         description = "Deletes a style given a required styleId",
         responses = {
             @ApiResponse(
@@ -68,7 +68,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
   @ResponseStatus(code = HttpStatus.ACCEPTED)
   Optional<Style> deleteStyles(
       @RequestParam(required = false) 
-      Style styleId);
+      String styleId);
       /*@RequestParam(required = false) 
       BigDecimal basePrice);*/
+
 }

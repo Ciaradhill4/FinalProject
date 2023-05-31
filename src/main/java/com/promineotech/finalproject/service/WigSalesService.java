@@ -4,15 +4,14 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import com.promineotech.finalproject.entity.Style;
-import com.promineotech.finalproject.entity.WigStyle;
 
 public interface WigSalesService {
 
-  List<Style> fetchStyles(WigStyle style);
+  List<Style> fetchStyles(String style);
 
-    Optional<Style> createStyles(WigStyle styleId, BigDecimal basePrice);
+    Optional<Style> createStyles(String style, BigDecimal basePrice);
     
-//    Optional<Style> updateStyles(Style newStyleId, BigDecimal basePrice);
-//
+    Optional<Style> updateStyles(String newStyleId, BigDecimal basePrice);
+
 //    Optional<Style> deleteStyles(Style styleId);
 }

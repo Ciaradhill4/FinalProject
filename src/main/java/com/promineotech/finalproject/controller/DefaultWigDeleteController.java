@@ -16,7 +16,7 @@ public class DefaultWigDeleteController implements WigDeleteController {
   private WigDeleteService wigDeleteService;
 
   @Override
-  public Optional<Style> deleteStyles(Style styleId) {
+  public Optional<Style> deleteStyles(String styleId) {
     log.info("The deleteStyles method was called with style={}", styleId);
     
     Optional<Style> styles = wigDeleteService.deleteStyles(styleId);

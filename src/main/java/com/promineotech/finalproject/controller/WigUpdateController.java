@@ -54,10 +54,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
                     mediaType = "application/json"))
         },
         parameters = {
-            @Parameter(name = "newStyleId",
-                allowEmptyValue = false, 
-                required = false, 
-                description = "Please enter a style"),
+            @Parameter(name = "StyleId",
+                allowEmptyValue = false,
+                required = false,
+                description = "Please enter a style name"),
             @Parameter(name = "basePrice",
                 allowEmptyValue = false, 
                 required = false, 
@@ -66,11 +66,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
       )
     @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
-    Optional<Style>updateStyles(
+    Optional<Style> updateStyles(
         @RequestParam(required = false) 
-        Style newStyleId,
+        String newStyleId,
         @RequestParam(required = false) 
         BigDecimal basePrice);
+    
      //@formatter:on
   }
   

@@ -16,7 +16,9 @@ public class OrderRequest {
   
   
   @NotNull
-  private WigStyle style;
+  @Length(max = 30) 
+  @Pattern(regexp = "[\\w\\s]*") 
+  private String style;
  
   
   @NotNull

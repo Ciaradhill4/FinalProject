@@ -15,17 +15,12 @@ public class Style {
 
 
   private Long stylePK;
-  private WigStyle styleId;
+  private String styleId;
   private BigDecimal basePrice;
 
   @JsonIgnore
   public Long getStylePK() {
     return stylePK;
-  }
-  
-  @JsonIgnore
-  public Style style(Style newStyleId) {
-    return style(newStyleId);
   }
 }
 

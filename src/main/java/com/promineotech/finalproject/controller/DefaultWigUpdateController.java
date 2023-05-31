@@ -17,7 +17,7 @@ public class DefaultWigUpdateController implements WigUpdateController {
   private WigUpdateService wigUpdateService;
 
   @Override
-  public Optional<Style> updateStyles(Style newStyleId, BigDecimal basePrice) {
+  public Optional<Style> updateStyles(String newStyleId, BigDecimal basePrice) {
     log.info("The updateStyles method was called with style={}, basePrice={}", newStyleId, basePrice);
     
     Optional<Style> styles = wigUpdateService.updateStyles(newStyleId, basePrice);

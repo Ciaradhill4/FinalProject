@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.promineotech.finalproject.dao.WigSalesDao;
 import com.promineotech.finalproject.entity.Style;
-import com.promineotech.finalproject.entity.WigStyle;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -21,7 +20,7 @@ public class DefaultWigSalesService implements WigSalesService {
   
  @Transactional(readOnly = true)
   @Override
-  public List<Style> fetchStyles(WigStyle style) {
+  public List<Style> fetchStyles(String style) {
     log.info("The fetchStyles method was called with style={}", style);
     
     List<Style> styles = wigSalesDao.fetchStyles(style);
@@ -35,7 +34,7 @@ public class DefaultWigSalesService implements WigSalesService {
   }
 
 @Override
-public Optional<Style> createStyles(WigStyle style, BigDecimal basePrice) {
+public Optional<Style> createStyles(String style, BigDecimal basePrice) {
   log.info("The createStyles method was called with style={}, basePrice={}", style, basePrice);
   
   Optional<Style> styles = wigSalesDao.createStyles(style, basePrice);
@@ -49,19 +48,19 @@ public Optional<Style> createStyles(WigStyle style, BigDecimal basePrice) {
   
 }
 
-//@Override
-//public Optional<Style> updateStyles(Style newStyleId, BigDecimal basePrice) {
-//log.info("The updateStyles method was called with style={}, basePrice={}", newStyleId, basePrice);
-//  
-//  Optional<Style> styles = wigSalesDao.updateStyles(newStyleId, basePrice);
-//  
-//  if(styles.isEmpty()) {
-//    String msg = String.format("No wigs found with style=%s", newStyleId, basePrice);
-//    
-//    throw new NoSuchElementException(msg);
-//  } 
-//  return updateStyles(newStyleId, basePrice);
-//}
+@Override
+public Optional<Style> updateStyles(String newStyleId, BigDecimal basePrice) {
+log.info("The updateStyles method was called with style={}, basePrice={}", newStyleId, basePrice);
+  
+  Optional<Style> styles = wigSalesDao.updateStyles(newStyleId, basePrice);
+  
+  if(styles.isEmpty()) {
+    String msg = String.format("No wigs found with style=%s", newStyleId, basePrice);
+    
+    throw new NoSuchElementException(msg);
+  } 
+  return updateStyles(newStyleId, basePrice);
+}
 //
 //@Override
 //public Optional<Style> deleteStyles(Style styleId) {

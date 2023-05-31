@@ -10,7 +10,6 @@ import com.promineotech.finalproject.entity.Orders;
 import com.promineotech.finalproject.entity.Style;
 import com.promineotech.finalproject.entity.Texture;
 import com.promineotech.finalproject.entity.WigColor;
-import com.promineotech.finalproject.entity.WigStyle;
 
 
 public interface WigOrderDao {
@@ -21,14 +20,14 @@ public interface WigOrderDao {
  */
   
   Optional<Customer> fetchCustomer(String customerId);
-  Optional<Style> fetchStyle(WigStyle styleId);
+  Optional<Style> fetchStyle(String styleId);
   Optional<Color> fetchColor(WigColor colorId);
   Optional<Texture> fetchTexture(String textureId);
   Optional<Length> fetchLength(String lengthId);
   
   
   Orders createOrder(OrderRequest orderRequest);
-  
+ 
   Orders saveOrder(Customer customer, Style style, Color color, Texture texture, Length length,
       BigDecimal price);
 

@@ -21,7 +21,6 @@ import com.promineotech.finalproject.entity.Orders;
 import com.promineotech.finalproject.entity.Style;
 import com.promineotech.finalproject.entity.Texture;
 import com.promineotech.finalproject.entity.WigColor;
-import com.promineotech.finalproject.entity.WigStyle;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -133,7 +132,7 @@ public class DefaultWigOrderDao implements WigOrderDao {
   }
 
   @Override
-  public Optional<Style> fetchStyle(WigStyle styleId) {
+  public Optional<Style> fetchStyle(String styleId) {
  // @formatter:off
     String sql = ""
         + "SELECT * "
@@ -202,7 +201,7 @@ class LengthResultSetExtractor implements ResultSetExtractor<Length> {
       return Length.builder()
           .lengthId(rs.getString("length_id"))
           .lengthPK(rs.getLong("length_pk"))
-          .price(null)
+          .price(rs.getBigDecimal("base_price"))
           .build(); 
      // @formatter:on
   }
@@ -219,7 +218,7 @@ class TextureResultSetExtractor implements ResultSetExtractor<Texture> {
           .textureId(rs.getString("texture_id"))
           .texturePK(rs.getLong("texture_pk"))
           .name(rs.getString("name"))
-          .price(null)
+          .price(rs.getBigDecimal("base_price"))
           .build(); 
      // @formatter:on
   }
@@ -236,7 +235,7 @@ class ColorResultSetExtractor implements ResultSetExtractor<Color> {
           .colorId(WigColor.valueOf(rs.getString("color_id")))
           .colorPK(rs.getLong("color_pk"))
           .name(rs.getString("name"))
-          .price(null)
+          .price(rs.getBigDecimal("base_price"))
           .build(); 
      // @formatter:on
   }
@@ -251,9 +250,9 @@ class StyleResultSetExtractor implements ResultSetExtractor<Style> {
 
     // @formatter:off
       return Style.builder()
-          .styleId(WigStyle.valueOf(rs.getString("style_id")))
+          .styleId(rs.getString("style_id"))
           .stylePK(rs.getLong("style_pk"))
-          .basePrice(null)
+          .basePrice(rs.getBigDecimal("base_price"))
           .build(); 
      // @formatter:on
   }

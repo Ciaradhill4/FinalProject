@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.promineotech.finalproject.entity.Style;
-import com.promineotech.finalproject.entity.WigStyle;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +27,7 @@ public interface WigSalesController {
   
   //@formatter:off
   @Operation(
-      summary = "Returns a list of Wig Styles",
+      summary = "Returns a style",
       description = "Returns a list of Wig Styles given an optional style",
       responses = {
           @ApiResponse(
@@ -57,13 +56,13 @@ public interface WigSalesController {
           @Parameter(name = "styleId", 
               allowEmptyValue = false, 
               required = false, 
-              description = "Please select a styles"),
+              description = "Please enter a style"),
       }
     )
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
   List<Style>fetchStyles(
       @RequestParam(required = false) 
-      WigStyle styleId);
+      String styleId);
    //@formatter:on
 }
