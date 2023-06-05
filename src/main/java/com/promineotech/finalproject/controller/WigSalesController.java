@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,14 +28,14 @@ public interface WigSalesController {
   //@formatter:off
   @Operation(
       summary = "Returns a style",
-      description = "Returns a list of Wig Styles given an optional style",
+      description = "Returns a style given an optional style",
       responses = {
           @ApiResponse(
               responseCode = "200", 
               description = "A list of wig styles is returned", 
               content = @Content(
                   mediaType = "application/json", 
-                  schema = @Schema(implementation = Style.class))),
+                  schema = @Schema(implementation = Styles.class))),
           @ApiResponse(
               responseCode = "400", 
               description = "The request parameter is invalid", 
@@ -53,16 +53,16 @@ public interface WigSalesController {
                   mediaType = "application/json"))
       },
       parameters = {
-          @Parameter(name = "styleId", 
+          @Parameter(name = "stylePK", 
               allowEmptyValue = false, 
               required = false, 
-              description = "Please enter a style"),
+              description = "Enter a style"),
       }
     )
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
-  List<Style>fetchStyles(
+  List<Styles>fetchStyles(
       @RequestParam(required = false) 
-      String styleId);
+      Long stylePK);
    //@formatter:on
 }

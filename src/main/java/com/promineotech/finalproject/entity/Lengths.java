@@ -6,10 +6,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Length {
+public class Lengths {
 
  
   private Long lengthPK;
-  private String lengthId;
+  private LengthInches lengthId;
+  private int inches;
   private BigDecimal price;
 }

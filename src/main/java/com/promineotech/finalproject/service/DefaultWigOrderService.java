@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.promineotech.finalproject.dao.WigOrderDao;
 import com.promineotech.finalproject.entity.Color;
 import com.promineotech.finalproject.entity.Customer;
-import com.promineotech.finalproject.entity.Length;
+import com.promineotech.finalproject.entity.Lengths;
 import com.promineotech.finalproject.entity.OrderRequest;
 import com.promineotech.finalproject.entity.Orders;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import com.promineotech.finalproject.entity.Texture;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,27 +27,28 @@ public class DefaultWigOrderService implements WigOrderService {
   @Override
   public Orders createOrder(OrderRequest orderRequest) {
     Customer customer = getCustomer(orderRequest); 
-    Style style = getStyle(orderRequest);
-    Color color = getColor(orderRequest);
+    Styles style = getStyle(orderRequest);
+    Color name = getName(orderRequest);
     Texture texture = getTexture(orderRequest);
-    Length length = getLength(orderRequest);
+    Lengths inches = getInches(orderRequest);
     
-    BigDecimal price =
-       style.getBasePrice().add(color.getPrice()).add(texture.getPrice())
-       .add(length.getPrice());  
+    BigDecimal price = 
+       style.getBasePrice().add(name.getPrice()).add(texture.getPrice())
+       .add(inches.getPrice());  
      
     log.debug("Order = {}", orderRequest);
-    return wigOrderDao.saveOrder(customer, style, color, texture, length, price);
+    return wigOrderDao.saveOrders(customer, style, name, texture, inches, price);
+    
   }
 /**
  * 
  * @param orders
  * @return
  */
-  protected Length getLength(OrderRequest orderRequest ) {
-    return wigOrderDao.fetchLength(orderRequest.getLength())
+  protected Lengths getInches(OrderRequest orderRequest ) {
+    return wigOrderDao.fetchLength(orderRequest.getInches())
         .orElseThrow(() -> new NoSuchElementException(
-        "Tire with ID= " + orderRequest.getLength() + " was not found"));
+        "Length with inches= " + orderRequest.getInches() + " was not found"));
   }
 /**
  * 
@@ -57,24 +58,24 @@ public class DefaultWigOrderService implements WigOrderService {
   protected Texture getTexture(OrderRequest orderRequest) {
     return wigOrderDao.fetchTexture(orderRequest.getTexture())
         .orElseThrow(() -> new NoSuchElementException(
-        "Engine with ID= " + orderRequest.getTexture() + " was not found"));
+        "Texture with ID= " + orderRequest.getTexture() + " was not found"));
   }
 /**
  * 
  * @param orders
  * @return
  */
-  protected Color getColor(OrderRequest orderRequest) {
-    return wigOrderDao.fetchColor(orderRequest.getColor())
+  protected Color getName(OrderRequest orderRequest) {
+    return wigOrderDao.fetchColor(orderRequest.getName())
         .orElseThrow(() -> new NoSuchElementException(
-        "Color with ID= " + orderRequest.getColor() + " was not found"));
+        "Color with name= " + orderRequest.getName() + " was not found"));
   }
 /**
  * 
  * @param orders
  * @return
  */
-  protected Style getStyle(OrderRequest orderRequest) {
+  protected Styles getStyle(OrderRequest orderRequest) {
     return wigOrderDao.fetchStyle(orderRequest.getStyle())
         .orElseThrow(() -> new NoSuchElementException(
         "Style with ID= " + orderRequest.getStyle() + " was not found"));
@@ -89,11 +90,12 @@ public class DefaultWigOrderService implements WigOrderService {
         .orElseThrow(() -> new NoSuchElementException(
         "Customer with ID= " + orderRequest.getCustomer() + " was not found"));
   }
-@Override
-public Orders saveOrder(Customer customer, String style, Color color, Texture texture, Length length,
-    BigDecimal price) {
-  // TODO Auto-generated method stub
-  return null;
-}
+  
+//@Override
+//public Orders saveOrders(Customer customer, Styles style, Color name, Texture texture, 
+  //Lengths inches, BigDecimal price) {
+//  // TODO Auto-generated method stub
+//  return saveOrders(customer, style, color, texture, length, price);
+//}
    
 }

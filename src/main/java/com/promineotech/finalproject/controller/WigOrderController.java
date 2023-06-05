@@ -6,13 +6,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.promineotech.finalproject.entity.OrderRequest;
 import com.promineotech.finalproject.entity.Orders;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,18 +51,17 @@ public interface WigOrderController {
               description = "An unplanned error occured.", 
               content = @Content(
                   mediaType = "application/json"))
-      },
-      parameters = {
-          @Parameter(name = "Orders",
-              allowEmptyValue = false, 
-              required = false, 
-              description = "Please place an order")
       }
+//      parameters = {
+//          @Parameter(name = "Orders",
+//              allowEmptyValue = false, 
+//              required = false, 
+//              description = "Please place an order")
+//      }
     )
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   Orders createOrder(
-      @RequestParam(required = false)
       @Valid 
       @RequestBody OrderRequest orderRequest);
    

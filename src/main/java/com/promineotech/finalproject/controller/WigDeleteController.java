@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,7 +35,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 description = "The style is deleted", 
                 content = @Content(
                     mediaType = "application/json", 
-                    schema = @Schema(implementation = Style.class))),
+                    schema = @Schema(implementation = Styles.class))),
             @ApiResponse(
                 responseCode = "400", 
                 description = "The request parameter is invalid", 
@@ -53,7 +53,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                     mediaType = "application/json"))
         },
         parameters = {
-            @Parameter(name = "styleId",
+            @Parameter(name = "stylePK",
                 allowEmptyValue = false, 
                 required = false, 
                 description = "Please enter a style to delete"),
@@ -66,9 +66,9 @@ import io.swagger.v3.oas.annotations.servers.Server;
         
   @DeleteMapping
   @ResponseStatus(code = HttpStatus.ACCEPTED)
-  Optional<Style> deleteStyles(
+  Optional<Styles> deleteStyles(
       @RequestParam(required = false) 
-      String styleId);
+      Long stylePK);
       /*@RequestParam(required = false) 
       BigDecimal basePrice);*/
 

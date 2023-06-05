@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -22,25 +22,25 @@ public class DeafaultWigUpdateDao implements WigUpdateDao {
   private NamedParameterJdbcTemplate jdbcTemplate;
   
   @Override
-  public List<Style> fetchStyle(String styleId){
-    log.info("DAO: styleId={}", styleId);
+  public List<Styles> fetchStyle(Long stylePK){
+    log.info("DAO: styleId={}", stylePK);
   
     //@formatter:off
     String sql = ""
         + "Select * "
         + "FROM style "
-        + "WHERE style_id = :style_id";
+        + "WHERE style_pk = :style_pk";
     //@formatter:on
     
     Map<String, Object> params = new HashMap<>();
-    params.put("style_pk", styleId);
+    params.put("style_pk", stylePK);
     
     return jdbcTemplate.query(sql, params, new RowMapper<>() {
 
       @Override
-      public Style mapRow(ResultSet rs, int rowNum) throws SQLException {
+      public Styles mapRow(ResultSet rs, int rowNum) throws SQLException {
         //@formatter:off
-        return Style.builder()
+        return Styles.builder()
             .stylePK(rs.getLong("style_pk"))
             .styleId(rs.getString("style_id"))
             .basePrice(new BigDecimal(rs.getString("base_price")))
@@ -48,24 +48,26 @@ public class DeafaultWigUpdateDao implements WigUpdateDao {
         //@formatter:on
         
       }});
-        
-}
+  }        
+
   @Override
-  public Optional<Style> updateStyles(String newStyleId, BigDecimal basePrice) {
- log.info("DAO: newStlyePK={}, styleId={}, basePrice={}", newStyleId, basePrice);
+  public Optional<Styles> updateStyles(Long stylePK, String styleId, BigDecimal basePrice) {
+ log.info("DAO: stlyePK={}", stylePK);
     
     //@formatter: off
     String sql = ""
-        + "UPDATE style SET style_id = new_style_id "
-        + "WHERE style_id = :new_style_id AND base_price = :base_price";
+        + "UPDATE styles "
+        + "SET style_pk = :style_pk, style_id = :style_id, base_price = :base_price "
+        + "WHERE style_pk = :style_pk ";
     //@formatter: on
     
     Map<String, Object> params = new HashMap<>();
-    params.put("style_id", newStyleId);
+    params.put("style_pk", stylePK);
+    params.put("style_id", styleId);
     params.put("base_price", basePrice);
     
     jdbcTemplate.update(sql, params);
-    return Optional.ofNullable(Style.builder().styleId(newStyleId).build());
+    return Optional.ofNullable(Styles.builder().stylePK(stylePK).styleId(styleId).basePrice(basePrice).build());
   }
 
 }

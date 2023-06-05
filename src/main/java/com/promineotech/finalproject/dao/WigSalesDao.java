@@ -3,7 +3,7 @@ package com.promineotech.finalproject.dao;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 
 public interface WigSalesDao {
 
@@ -12,10 +12,10 @@ public interface WigSalesDao {
    * @param styles
    * @return
    */
-  List<Style> fetchStyles(String style);
+  List<Styles> fetchStyles(Long stylePK);
 
-  Optional<Style> createStyles(String style, BigDecimal basePrice);
+  Optional<Styles> createStyles(Long stylePK, String styleId, BigDecimal basePrice);
 
-  Optional<Style> updateStyles(String newStyleId, BigDecimal basePrice);
+  Optional<Styles> updateStyles(String newStyleId, BigDecimal basePrice);
 
 }

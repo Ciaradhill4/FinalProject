@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -22,25 +22,25 @@ public class DefaultWigDeleteDao implements WigDeleteDao {
   private NamedParameterJdbcTemplate jdbcTemplate;
 
   @Override
-  public List<Style> fetchStyle(String styleId){
-    log.info("DAO: styleId={}", styleId);
+  public List<Styles> fetchStyle(Long stylePK){
+    log.info("DAO: style={}", stylePK);
   
     //@formatter:off
     String sql = ""
         + "Select * "
         + "FROM style "
-        + "WHERE style_id = :style_id";
+        + "WHERE style_pk = :style_pk";
     //@formatter:on
     
     Map<String, Object> params = new HashMap<>();
-    params.put("style_pk", styleId);
+    params.put("style_pk", stylePK);
     
     return jdbcTemplate.query(sql, params, new RowMapper<>() {
 
       @Override
-      public Style mapRow(ResultSet rs, int rowNum) throws SQLException {
+      public Styles mapRow(ResultSet rs, int rowNum) throws SQLException {
         //@formatter:off
-        return Style.builder()
+        return Styles.builder()
             .stylePK(rs.getLong("style_pk"))
             .styleId(rs.getString("style_id"))
             .basePrice(new BigDecimal(rs.getString("base_price")))
@@ -52,20 +52,19 @@ public class DefaultWigDeleteDao implements WigDeleteDao {
 }
   
   @Override
-  public Optional<Style> deleteStyles(String styleId){
+  public Optional<Styles> deleteStyles(Long stylePK){
     //@formatter:off
     String sql = ""
-        + "DELETE FROM style WHERE "
-        + " style_id = :style_id AND "
-        + "base_price = :base_price";
+        + "DELETE FROM styles "
+        + "WHERE style_pk = :style_pk ";
     //@formatter:on
     
     Map<String, Object> params = new HashMap<>();
-    params.put("style_id", styleId.toString());
+    params.put("style_pk", stylePK);
     
     jdbcTemplate.update(sql, params);
     
-    return Optional.ofNullable(Style.builder().styleId(styleId).build());
+    return Optional.ofNullable(Styles.builder().stylePK(stylePK).build());
   }
 
 }

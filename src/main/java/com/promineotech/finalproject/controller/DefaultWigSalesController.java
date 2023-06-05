@@ -1,12 +1,9 @@
 package com.promineotech.finalproject.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import com.promineotech.finalproject.service.WigSalesService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,21 +15,21 @@ public class DefaultWigSalesController implements WigSalesController {
   private WigSalesService wigSalesService;
   
   @Override
-  public List<Style>fetchStyles(String styleId) {
-    log.debug("style={}", styleId);
-    return wigSalesService.fetchStyles(styleId);
+  public List<Styles>fetchStyles(Long stylePK) {
+    log.debug("style={}", stylePK);
+    return wigSalesService.fetchStyles(stylePK);
   }
   
-  Optional<Style> createStyles(String style, BigDecimal basePrice) {
-    log.info("The createStyles method was called with style={}, basePrice={}", style, basePrice);
-    
-    Optional<Style> styles = wigSalesService.createStyles(style, basePrice);
-    
-    if(styles.isEmpty()) {
-      String msg = String.format("No wigs found with style=%s", style);
-      
-      throw new NoSuchElementException(msg);
-    } 
-    return createStyles(style, basePrice);
-  }
+//  Optional<Styles> createStyles(String styleId, BigDecimal basePrice) {
+//    log.info("The createStyles method was called with styleId={}, basePrice={}", styleId, basePrice);
+//    
+//    Optional<Styles> styles = wigSalesService.createStyles(styleId, basePrice);
+//    
+//    if(styles.isEmpty()) {
+//      String msg = String.format("No wigs found with style=%s", styleId);
+//      
+//      throw new NoSuchElementException(msg);
+//    } 
+//    return createStyles(styleId, basePrice);
+//  }
 }

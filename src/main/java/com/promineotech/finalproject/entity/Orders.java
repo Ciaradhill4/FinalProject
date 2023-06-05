@@ -11,10 +11,10 @@ public class Orders {
 
   private Long orderPK;
   private Customer customer;
-  private Style style;
-  private Color color;
+  private Styles style;
+  private Color name;
   private Texture texture;
-  private Length length;
+  private Lengths inches;
   private BigDecimal price;
   
   

@@ -1,15 +1,14 @@
 package com.promineotech.finalproject.service;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 
 public interface WigUpdateService {
 
-  List<Style> fetchStyle(String styleId);
-  
-  Optional<Style> updateStyles(String newStyleId, BigDecimal basePrice);
+ // List<Styles> fetchStyle(Long stylePK);
+
+  Optional<Styles> updateStyles(Long stylePK, String styleId, BigDecimal basePrice);
 
 
 }

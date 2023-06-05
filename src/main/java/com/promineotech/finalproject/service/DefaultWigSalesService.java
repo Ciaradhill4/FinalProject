@@ -1,14 +1,12 @@
 package com.promineotech.finalproject.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.promineotech.finalproject.dao.WigSalesDao;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -20,47 +18,48 @@ public class DefaultWigSalesService implements WigSalesService {
   
  @Transactional(readOnly = true)
   @Override
-  public List<Style> fetchStyles(String style) {
-    log.info("The fetchStyles method was called with style={}", style);
+  public List<Styles> fetchStyles(Long stylePK) {
+    log.info("The fetchStyles method was called with style={}", stylePK);
     
-    List<Style> styles = wigSalesDao.fetchStyles(style);
+    List<Styles> styles = wigSalesDao.fetchStyles(stylePK);
     
     if(styles.isEmpty()) {
-      String msg = String.format("No wigs found with style=%s", style);
+      String msg = String.format("No wigs found with style=%s", stylePK);
       
       throw new NoSuchElementException(msg);
     } 
     return styles;
   }
-
-@Override
-public Optional<Style> createStyles(String style, BigDecimal basePrice) {
-  log.info("The createStyles method was called with style={}, basePrice={}", style, basePrice);
-  
-  Optional<Style> styles = wigSalesDao.createStyles(style, basePrice);
-  
-  if(styles.isEmpty()) {
-    String msg = String.format("No wigs found with style=%s", style);
-    
-    throw new NoSuchElementException(msg);
-  } 
-  return createStyles(style, basePrice);
-  
 }
 
-@Override
-public Optional<Style> updateStyles(String newStyleId, BigDecimal basePrice) {
-log.info("The updateStyles method was called with style={}, basePrice={}", newStyleId, basePrice);
-  
-  Optional<Style> styles = wigSalesDao.updateStyles(newStyleId, basePrice);
-  
-  if(styles.isEmpty()) {
-    String msg = String.format("No wigs found with style=%s", newStyleId, basePrice);
-    
-    throw new NoSuchElementException(msg);
-  } 
-  return updateStyles(newStyleId, basePrice);
-}
+//@Override
+//public Optional<Styles> createStyles(String style, BigDecimal basePrice) {
+//  log.info("The createStyles method was called with style={}, basePrice={}", style, basePrice);
+//  
+//  Optional<Styles> styles = wigSalesDao.createStyles(style, basePrice);
+//  
+//  if(styles.isEmpty()) {
+//    String msg = String.format("No wigs found with style=%s", style);
+//    
+//    throw new NoSuchElementException(msg);
+//  } 
+//  return createStyles(style, basePrice);
+//  
+//}
+//
+//@Override
+//public Optional<Styles> updateStyles(String newStyleId, BigDecimal basePrice) {
+//log.info("The updateStyles method was called with style={}, basePrice={}", newStyleId, basePrice);
+//  
+//  Optional<Styles> styles = wigSalesDao.updateStyles(newStyleId, basePrice);
+//  
+//  if(styles.isEmpty()) {
+//    String msg = String.format("No wigs found with style=%s", newStyleId, basePrice);
+//    
+//    throw new NoSuchElementException(msg);
+//  } 
+//  return updateStyles(newStyleId, basePrice);
+//}
 //
 //@Override
 //public Optional<Style> deleteStyles(Style styleId) {
@@ -76,5 +75,5 @@ log.info("The updateStyles method was called with style={}, basePrice={}", newSt
 //  return createStyles(styleId, basePrice);
 //}
 
-}
+//}
  

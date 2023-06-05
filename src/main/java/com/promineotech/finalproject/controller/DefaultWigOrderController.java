@@ -1,5 +1,6 @@
 package com.promineotech.finalproject.controller;
 
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +19,7 @@ public class DefaultWigOrderController implements WigOrderController {
   
   
   @Override
-  public Orders createOrder(OrderRequest orderRequest) {
+  public Orders createOrder(@Valid OrderRequest orderRequest) {
     log.debug("Order={}", orderRequest);
     return wigOrderService.createOrder(orderRequest);
   }

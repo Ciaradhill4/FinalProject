@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,7 +36,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 description = "The update is returned", 
                 content = @Content(
                     mediaType = "application/json", 
-                    schema = @Schema(implementation = Style.class))),
+                    schema = @Schema(implementation = Styles.class))),
             @ApiResponse(
                 responseCode = "400", 
                 description = "The request parameter is invalid", 
@@ -54,7 +54,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
                     mediaType = "application/json"))
         },
         parameters = {
-            @Parameter(name = "StyleId",
+            @Parameter(name = "stylePK",
+                allowEmptyValue = false, 
+                required = false, 
+                description = "Please enter stylePK"),
+            @Parameter(name = "styleId",
                 allowEmptyValue = false,
                 required = false,
                 description = "Please enter a style name"),
@@ -62,15 +66,20 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 allowEmptyValue = false, 
                 required = false, 
                 description = "Please enter a price")
+            
+            
         }
       )
     @PutMapping
     @ResponseStatus(code = HttpStatus.OK)
-    Optional<Style> updateStyles(
+    Optional<Styles> updateStyles(
         @RequestParam(required = false) 
-        String newStyleId,
+        Long stylePK,
+        @RequestParam(required = false) 
+        String styleId,
         @RequestParam(required = false) 
         BigDecimal basePrice);
+
     
      //@formatter:on
   }

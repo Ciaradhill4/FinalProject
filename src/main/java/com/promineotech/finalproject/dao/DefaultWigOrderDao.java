@@ -15,10 +15,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import com.promineotech.finalproject.entity.Color;
 import com.promineotech.finalproject.entity.Customer;
-import com.promineotech.finalproject.entity.Length;
+import com.promineotech.finalproject.entity.LengthInches;
+import com.promineotech.finalproject.entity.Lengths;
 import com.promineotech.finalproject.entity.OrderRequest;
 import com.promineotech.finalproject.entity.Orders;
-import com.promineotech.finalproject.entity.Style;
+import com.promineotech.finalproject.entity.Styles;
 import com.promineotech.finalproject.entity.Texture;
 import com.promineotech.finalproject.entity.WigColor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,25 +31,27 @@ public class DefaultWigOrderDao implements WigOrderDao {
   private NamedParameterJdbcTemplate jdbcTemplate;
 
   @Override
-  public Orders saveOrder(Customer customer, Style style, Color color, Texture texture,
-      Length length, BigDecimal price) {
+  public Orders saveOrders(Customer customer, Styles style, Color name, Texture texture,
+      Lengths inches, BigDecimal price) {
+//    log.info("DAO: customer_id={}, style_id={}, color_id={}, texture_id={}, length_id={}, price={}",
+//                  customer, style, name, texture, inches, price);
     SqlParams params = 
-        generateInsertSql(customer, style, color, texture, length, price);
+        generateInsertSql(customer, style, name, texture, inches, price);
     
     KeyHolder keyHolder = new GeneratedKeyHolder();
     jdbcTemplate.update(params.sql, params.source, keyHolder);
     
     Long orderPK = keyHolder.getKey().longValue();
-    saveOptions(customer, orderPK);
+    saveOrders(customer, orderPK);
     
     // @formatter:off
     return Orders.builder()
         .orderPK(orderPK)
         .customer(customer)
         .style(style)
-        .color(color)
+        .name(name)
         .texture(texture)
-        .length(length)
+        .inches(inches)
         .price(price)
         .build();
     // @formatter:on
@@ -56,10 +59,11 @@ public class DefaultWigOrderDao implements WigOrderDao {
   
   }
 
-  private void saveOptions(Customer customer, Long orderPK) {
+  private void saveOrders(Customer customer, Long orderPK) {
     SqlParams params = generateInsertSql(customer, orderPK);
     jdbcTemplate.update(params.sql, params.source); 
   }
+  
 
   private SqlParams generateInsertSql(Customer customer, Long orderPK) {
     SqlParams params = new SqlParams();
@@ -67,13 +71,14 @@ public class DefaultWigOrderDao implements WigOrderDao {
     //formatter:off
     params.sql = ""
         + "INSERT INTO customer_orders ("
-        + "customer_fk, order_fk"
+        + "customer_id, order_fk"
         + ") VALUES ("
-        + ":customer_fk, :order_fk"
+        + ":customer_id, :order_fk"
         + ")";
     //formatter:on
     
-    params.source.addValue("customer_fk", customer);
+    
+    params.source.addValue("customer_id", customer.getCustomerId());
     params.source.addValue("order_fk", orderPK);
     
     return params;
@@ -89,25 +94,25 @@ public class DefaultWigOrderDao implements WigOrderDao {
    * @param price
    * @return
    */
-  private SqlParams generateInsertSql(Customer customer, Style style, Color color, Texture texture,
-      Length length, BigDecimal price) {
+  private SqlParams generateInsertSql(Customer customer, Styles style, Color name, Texture texture,
+      Lengths inches, BigDecimal price) {
     // @formatter:off
     String sql = ""
         +"INSERT INTO orders ("
-        +"customer_fk, style_fk, color_fk, texture_fk, length_fk, price"
+        +"customer_id, style_id, name, texture_id, inches, price"
         +")VALUES ("
-        +":customer_fk, :style_fk, :color_fk, :texture_fk, :length_fk, :price)"
-        +"";
+        +":customer_id, :style_id, :name, :texture_id, :inches, :price"
+        +")";
     // @formatter:on
     
     SqlParams params = new SqlParams();
     
     params.sql = sql;
-    params.source.addValue("customer_fk", customer.getCustomerPK());
-    params.source.addValue("style_fk", style.getStylePK());
-    params.source.addValue("color_fk", color.getcolorPK());
-    params.source.addValue("texture_fk", texture.getTexturePK());
-    params.source.addValue("length_fk", length.getLengthPK());
+    params.source.addValue("customer_id", customer.getCustomerId());
+    params.source.addValue("style_id", style.getStyleId());
+    params.source.addValue("name", name.getName());
+    params.source.addValue("texture_id", texture.getTextureId());
+    params.source.addValue("inches",inches.getInches());
     params.source.addValue("price", price);
     
     return params;
@@ -132,11 +137,11 @@ public class DefaultWigOrderDao implements WigOrderDao {
   }
 
   @Override
-  public Optional<Style> fetchStyle(String styleId) {
+  public Optional<Styles> fetchStyle(String styleId) {
  // @formatter:off
     String sql = ""
         + "SELECT * "
-        + "FROM style "
+        + "FROM styles "
         + "WHERE style_id = :style_id";
     // @formatter:on
 
@@ -147,16 +152,16 @@ public class DefaultWigOrderDao implements WigOrderDao {
   }
 
   @Override
-  public Optional<Color> fetchColor(WigColor colorId) {
+  public Optional<Color> fetchColor(String name) {
  // @formatter:off
     String sql = ""
         + "SELECT * "
         + "FROM color "
-        + "WHERE color_id = :color_id";
+        + "WHERE name = :name";
     // @formatter:on
 
     Map<String, Object> params = new HashMap<>();
-    params.put("color_id", colorId.toString().toUpperCase());
+    params.put("name", name);
 
     return Optional.ofNullable(jdbcTemplate.query(sql, params, new ColorResultSetExtractor()));
   }
@@ -177,31 +182,38 @@ public class DefaultWigOrderDao implements WigOrderDao {
   }
 
   @Override
-  public Optional<Length> fetchLength(String lengthId) {
+  public Optional<Lengths> fetchLength(int inches) {
  // @formatter:off
     String sql = ""
         + "SELECT * "
-        + "FROM length "
-        + "WHERE length_id = :length_id";
+        + "FROM lengths "
+        + "WHERE inches = :inches";
     // @formatter:on
 
     Map<String, Object> params = new HashMap<>();
-    params.put("length_id", lengthId);
+    params.put("inches", inches);
 
     return Optional.ofNullable(jdbcTemplate.query(sql, params, new LengthResultSetExtractor()));
   }
-
-
-class LengthResultSetExtractor implements ResultSetExtractor<Length> {
+  
   @Override
-  public Length extractData(ResultSet rs) throws SQLException {
+  public Optional<BigDecimal> fetchPrice(BigDecimal price) {
+    // TODO Auto-generated method stub
+    return Optional.empty();
+  }
+
+
+class LengthResultSetExtractor implements ResultSetExtractor<Lengths> {
+  @Override
+  public Lengths extractData(ResultSet rs) throws SQLException {
     rs.next();
 
     // @formatter:off
-      return Length.builder()
-          .lengthId(rs.getString("length_id"))
+      return Lengths.builder()
           .lengthPK(rs.getLong("length_pk"))
-          .price(rs.getBigDecimal("base_price"))
+          .lengthId(LengthInches.valueOf(rs.getString("length_id")))
+          .inches(rs.getInt("inches"))
+          .price(rs.getBigDecimal("price"))
           .build(); 
      // @formatter:on
   }
@@ -215,10 +227,10 @@ class TextureResultSetExtractor implements ResultSetExtractor<Texture> {
 
     // @formatter:off
       return Texture.builder()
+        .texturePK(rs.getLong("texture_pk"))
           .textureId(rs.getString("texture_id"))
-          .texturePK(rs.getLong("texture_pk"))
           .name(rs.getString("name"))
-          .price(rs.getBigDecimal("base_price"))
+          .price(rs.getBigDecimal("price"))
           .build(); 
      // @formatter:on
   }
@@ -232,28 +244,28 @@ class ColorResultSetExtractor implements ResultSetExtractor<Color> {
 
     // @formatter:off
       return Color.builder()
-          .colorId(WigColor.valueOf(rs.getString("color_id")))
           .colorPK(rs.getLong("color_pk"))
+          .colorId(WigColor.valueOf(rs.getString("color_id")))
           .name(rs.getString("name"))
-          .price(rs.getBigDecimal("base_price"))
+          .price(rs.getBigDecimal("price"))
           .build(); 
      // @formatter:on
   }
 }
 
 
-class StyleResultSetExtractor implements ResultSetExtractor<Style> {
+class StyleResultSetExtractor implements ResultSetExtractor<Styles> {
  
   @Override
-  public Style extractData(ResultSet rs) throws SQLException {
+  public Styles extractData(ResultSet rs) throws SQLException {
     rs.next();
 
     // @formatter:off
-      return Style.builder()
-          .styleId(rs.getString("style_id"))
+      return Styles.builder()
           .stylePK(rs.getLong("style_pk"))
-          .basePrice(rs.getBigDecimal("base_price"))
-          .build(); 
+         .styleId(rs.getString("style_id"))
+         .basePrice(rs.getBigDecimal("base_price"))
+         .build(); 
      // @formatter:on
   }
 }
@@ -267,8 +279,8 @@ class CustomerResultSetExtractor implements ResultSetExtractor<Customer> {
 
     // @formatter:off
       return Customer.builder()
-          .customerId(rs.getString("customer_id"))
           .customerPK(rs.getLong("customer_pk"))
+          .customerId(rs.getString("customer_id"))
           .firstName(rs.getString("first_name"))
           .lastName(rs.getString("last_name"))
           .phone(rs.getString("phone"))
@@ -276,11 +288,11 @@ class CustomerResultSetExtractor implements ResultSetExtractor<Customer> {
      // @formatter:on
   }
 
-  class SqlParams {
-    String sql;
-    MapSqlParameterSource source = new MapSqlParameterSource();
-
-  }
+//  class SqlParams {
+//    String sql;
+//    MapSqlParameterSource source = new MapSqlParameterSource();
+//
+//  }
  }
   class SqlParams {
     String sql;
@@ -289,10 +301,9 @@ class CustomerResultSetExtractor implements ResultSetExtractor<Customer> {
   
   @Override
   public Orders createOrder(OrderRequest orderRequest) {
-    log.debug("Order = {}", orderRequest);
+    log.debug("DAO: orderRequest = {}", orderRequest);
     return createOrder(orderRequest);
   }
-  
-}
+}  
 
 
